@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx --yes create-next-app@latest . --typescript --tailwind --app --turbopack --src-dir --import-alias \"@/*\" --eslint --use-npm --yes)",
+      "Bash(mkdir -p /tmp/sv-scaffold)",
+      "Read(//tmp/**)",
+      "Bash(rm -rf solar-voyage)",
+      "Bash(npx --yes create-next-app@latest solar-voyage --typescript --tailwind --app --turbopack --src-dir --import-alias \"@/*\" --eslint --use-npm --yes)",
+      "Read(//private/tmp/sv-scaffold/solar-voyage/**)",
+      "Bash(rm -rf .git .next node_modules package-lock.json AGENTS.md CLAUDE.md)",
+      "Bash(shopt -s dotglob)",
+      "Bash(mv /tmp/sv-scaffold/solar-voyage/* /tmp/sv-scaffold/solar-voyage/.[!.]* \"/Users/hadikaddoura/Desktop/UAE Solar Voyage/\")",
+      "Bash(npm install *)",
+      "Bash(npm view *)",
+      "Bash(npm run *)"
+    ]
+  }
+}
