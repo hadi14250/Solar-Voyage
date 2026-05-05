@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Solar Voyage
 
-## Getting Started
+A Duolingo-style 3D learning app for exploring the solar system. Click a planet, read the facts, take the quiz, earn stars — finish all planets to complete the mission.
 
-First, run the development server:
+Built for the UAE space-education context, with bilingual content (English + Arabic) and a cameo from the Hope Probe.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## What it does
+
+- **3D solar system** rendered with `@react-three/fiber` and `three.js` — the Sun, all eight planets, an asteroid belt, Saturn's rings, and the UAE Hope Probe orbiting Mars.
+- **Click any planet** to focus the camera on it, see real-world facts (distance, diameter, day/year length, trivia), and take a short quiz.
+- **Quizzes** unlock progress and award up to 3 stars per planet based on accuracy.
+- **Progress is saved** in localStorage — pick up where you left off, with a "Mission Complete" celebration when you finish all planets.
+- **Toolbar controls**: toggle real-relative planet sizes, speed up orbits, hide labels, mute audio.
+- **Bilingual**: every fact and quiz question is authored in both English and Arabic.
+- **Accessible**: respects `prefers-reduced-motion`, mobile-friendly camera framing, keyboard-navigable UI.
+
+## Tech stack
+
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
+- **react-three-fiber** + **drei** + **three.js** for the 3D scene
+- **Tailwind CSS v4** for styling
+- **framer-motion** for UI transitions
+- The 3D scene is dynamically imported (`ssr: false`) so the initial JS bundle stays small.
+
+## Project structure
+
+```
+src/
+├── app/                  # Next.js App Router entry (page.tsx, layout, globals)
+├── components/
+│   ├── three/            # 3D scene: SolarSystem, Sun, planets, AsteroidBelt, HopeProbe, CameraController
+│   └── ui/               # 2D overlay: TitleBar, Toolbar, PlanetPanel, Quiz, LoadingScreen, MissionComplete
+├── data/
+│   ├── planets.ts        # Planet metadata + bilingual facts
+│   └── quizzes.ts        # Bilingual quiz questions per planet
+└── lib/
+    ├── audio.ts          # Sound effects + mute state
+    ├── sceneContext.tsx  # Shared scene state for r3f children
+    ├── textures.ts       # Procedural / loaded textures
+    ├── useProgress.ts    # localStorage-backed progress + stars
+    └── useMediaQuery.ts  # Reduced-motion / desktop hooks
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Run it
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open <http://localhost:3000>.
 
-## Learn More
+```bash
+npm run build && npm run start   # production
+npm run lint                     # eslint
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Controls
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Click a planet** (or pick one from the selector) to focus + open the info panel
+- **Real sizes** toggle — switch from aesthetic radii to real relative sizes (Earth = 1)
+- **Speed** toggle — 1× / 10× orbital speed
+- **Labels** toggle — show/hide planet name labels
+- **Mute** toggle — silence sound effects
